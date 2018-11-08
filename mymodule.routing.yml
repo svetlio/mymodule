@@ -6,12 +6,4 @@ mymodule.default_controller_content:
     _title: 'Content'
   requirements:
     _permission: 'access content'
-
-mymodule.default_form:
-  path: '/mymodule/form/default'
-  defaults:
-    _form: '\Drupal\mymodule\Form\DefaultForm'
-    _title: 'DefaultForm'
-  requirements:
-    _access: 'TRUE'
   
