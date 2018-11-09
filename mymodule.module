@@ -22,3 +22,13 @@ function mymodule_help($route_name, RouteMatchInterface $route_match) {
     default:
   }
 }
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function mymodule_preprocess_views_view(&$variables) {
+  // add form before the view,
+  // this is a alternative to print the form in DefaultController, keep only one variant
+  // $form = \Drupal::formBuilder()->getForm('\Drupal\mymodule\Form\DefaultForm');
+  // $variables['attachment_before'][] = $form;
+}

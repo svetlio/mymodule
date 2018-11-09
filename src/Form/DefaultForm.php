@@ -33,7 +33,7 @@ class DefaultForm extends FormBase {
       '#weight' => '0',
     ];
 
-    // get terms to build options
+    // ToDo: get terms to build options
     $options = [
       // tid => name
       '1' => $this->t('Tag 1'),
