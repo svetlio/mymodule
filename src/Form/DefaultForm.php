@@ -23,7 +23,21 @@ class DefaultForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    // ToDo: read default values from $_GET (or \Drupal::request())
+    $default_value = '';
+
+    // prepare default_values
+    foreach ($_GET AS $key => $value) {
+      if (is_array($value)) {
+        $default_value = [];
+        
+        foreach ($value AS $k => $v) {
+          $default_value[$key][] = $v;
+        }
+      }
+      else if (is_string($value)) {
+        $default_value[$key] = $value;
+      }
+    }
 
     $form['string'] = [
       '#type' => 'textfield',
@@ -31,19 +45,20 @@ class DefaultForm extends FormBase {
       '#maxlength' => 64,
       '#size' => 64,
       '#weight' => '0',
+      '#default_value' => isset($default_value['string']) ? $default_value['string'] : ''
     ];
 
-    // ToDo: get terms to build options
-    $options = [
-      // tid => name
-      '1' => $this->t('Tag 1'),
-      '2' => $this->t('Tag 2')
-    ];
+    // prepare tags options
+    $terms = \Drupal::entityTypeManager() ->getStorage('taxonomy_term') ->loadByProperties(['vid' => 'tags']);
+    foreach ($terms AS $term) {
+      $options[$term->id()] = $term->getName();
+    }
 
     $form['tags'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('Tags'),
-      '#options' => $options
+      '#options' => $options,
+      '#default_value' => isset($default_value['tags']) ? $default_value['tags'] : ''
     ];
 
     $form['actions']['submit'] = [
